@@ -12,7 +12,10 @@
         "http://www.reddit.com/*",
         "https://www.reddit.com/*"
       ],
-      "js": ["jquery-3.0.0.min.js","background.js"]
+      "js": [
+        "jquery-3.0.0.min.js",
+        "background.js"
+      ]
     }
   ]
 }
