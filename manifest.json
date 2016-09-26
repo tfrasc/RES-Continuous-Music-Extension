@@ -1,18 +1,29 @@
 {
-  "name": "RES Continuous Music",
+  "manifest_version": 2,
+
+  "name": "Reddit Continuous Music",
+  "description": "",
   "version": "1.0",
-  "manifest_version" : 2,
-  "description": "Allows you to continuously play music on a music subreddit.",
+
   "browser_action": {
-      "default_popup" : "player.html"
+    /*"default_icon": "icon.png",*/
+    "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://www.reddit.com/*",
-        "https://www.reddit.com/*"
-      ],
-      "js": ["jquery-3.0.0.min.js","background.js"]
-    }
+
+  "background": {
+    "scripts": ["jquery-3.0.0.min.js", "background.js"],
+    "persistent": true
+  },
+
+  "content_scripts": [{
+     "matches": ["https://www.reddit.com/*", "http://www.reddit.com/*"],
+     "js": ["jquery-3.0.0.min.js", "content.js"]
+     /*"run_at": "document_end"*/
+  }],
+
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*"
   ]
 }

@@ -1,31 +1,26 @@
-$('button').each(function () { 
-  console.log("Youtube");
-});
+function load() {
+  chrome.tabs.query({}, function(tabs) {
+      var message = {action: "load"};
+      for (var i=0; i<tabs.length; ++i) {
+          chrome.tabs.sendMessage(tabs[i].id, message);
+      }
+  });
+}
 
-/*
-$('.expando-button').each(function () {
-  $(this).trigger('click');
-  $(this).children('.ytp-button').trigger('click');
-  console.log("Youtube button");
-});
-*/
-//$('.expando-button').eq(1).trigger('click');
-//$('.expando-button').eq(1).trigger('click');
+function next() {
+  chrome.tabs.query({}, function(tabs) {
+      var message = {action: "next"};
+      for (var i=0; i<tabs.length; ++i) {
+          chrome.tabs.sendMessage(tabs[i].id, message);
+      }
+  });
+}
 
-$('.expando-button').eq(2).trigger('click');
-
-
-setTimeout(
-  function() 
-  {
-    
-
-  }, 20000);  
-
-$('iframe').each(function(){
-    var iframe = $(this).contents();
-    console.log("outter iframe");
-    iframe.find('iframe').each(function () {
-      console.log("inner frame");
-    });
-});
+function back() {
+  chrome.tabs.query({}, function(tabs) {
+      var message = {action: "back"};
+      for (var i=0; i<tabs.length; ++i) {
+          chrome.tabs.sendMessage(tabs[i].id, message);
+      }
+  });
+}
