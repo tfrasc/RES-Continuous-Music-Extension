@@ -4,7 +4,6 @@ $(document).ready(function() {
 
   $('#start-btn').click(function() {
     background.load();
-    $('#start-btn').prop("disabled",true);
   });
 
   $('#next-btn').click(function() {
@@ -14,4 +13,5 @@ $(document).ready(function() {
   $('#back-btn').click(function() {
     background.back();
   });
-})
+
+});

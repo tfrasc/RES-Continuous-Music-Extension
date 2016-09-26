@@ -11,13 +11,22 @@
   },
 
   "background": {
-    "scripts": ["jquery-3.0.0.min.js", "background.js"],
+    "scripts": [
+      "jquery-3.0.0.min.js",
+      "background.js"
+    ],
     "persistent": true
   },
 
   "content_scripts": [{
-     "matches": ["https://www.reddit.com/*", "http://www.reddit.com/*"],
-     "js": ["jquery-3.0.0.min.js", "content.js"],
+     "matches": [
+       "https://www.reddit.com/*",
+       "http://www.reddit.com/*"
+     ],
+     "js": [
+       "jquery-3.0.0.min.js",
+       "content.js"
+     ],
      "run_at": "document_end"
   }],
 
