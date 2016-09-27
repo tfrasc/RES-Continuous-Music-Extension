@@ -1,13 +1,13 @@
 var lastURL;
-var tabId;
-var found = false;
+var lastTabId;
+var foundTabTab = false;
 
 function load() {
   chrome.tabs.query({}, function(tabs) {
       for (var i = 0; i < tabs.length; ++i) {
         chrome.tabs.sendMessage(tabs[i].id, {action: "load"}), function(response) {
           lastURL = response.url;
-          console.log(response);
+          // console.log(response);
           return lastURL;
         };
       }
@@ -19,7 +19,7 @@ function next() {
       for (var i = 0; i < tabs.length; ++i) {
         chrome.tabs.sendMessage(tabs[i].id, {action: "next"}), function(response) {
           lastURL = response.url;
-          console.log(response);
+          // console.log(response);
           return lastURL;
         };
       }
@@ -31,7 +31,7 @@ function back() {
       for (var i = 0; i < tabs.length; ++i) {
         chrome.tabs.sendMessage(tabs[i].id, {action: "back"}), function(response) {
           lastURL = response.url;
-          console.log(response);
+          // console.log(response);
           return lastURL;
         };
       }
@@ -59,26 +59,34 @@ function back() {
 // }
 
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
-  if(message.action === "new"){
-    chrome.tabs.create({url: message.url}, function(tab){
-      tabId = tab.id;
-    });
-    lastURL = message.url;
+  var url = message.url;
+
+  if(url.indexOf("youtube") >= 0 || url.indexOf("youtu.be") >= 0){
+    url += "?rel=0&autoplay=1";
   }
-  if(message.action == "update"){
-    found = false;
+  else if(url.indexOf("soundcloud") >= 0){
+    url += "?auto_play=true";
+  }
+  if(message.action === "new"){
+    chrome.tabs.create({url: url}, function(tab){
+      lastTabId = tab.id;
+    });
+    lastURL = url;
+  }
+  else if(message.action == "update"){
+    foundTab = false;
     chrome.tabs.query({}, function(tabs) {
       for (var i = 0; i < tabs.length; i++) {
         if(tabs[i].url === lastURL) {
-            chrome.tabs.update(tabs[i].id, {url: message.url});
-            tabId = tabs[i].id;
-            lastURL = message.url;
-            found = true;
+            chrome.tabs.update(tabs[i].id, {url: url});
+            lastTabId = tabs[i].id;
+            lastURL = url;
+            foundTab = true;
         }
       }
-      if(!found){
-        chrome.tabs.update(tabId, {url: message.url});
-        lastURL = message.url;
+      if(!foundTab){
+        chrome.tabs.update(lastTabId, {url: url});
+        lastURL = url;
       }
     })
   }
