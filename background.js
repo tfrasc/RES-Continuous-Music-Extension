@@ -71,7 +71,18 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
     });
     lastURL = url;
   }
-  else if(message.action == "update"){
+  else if(message.action === "next"){
+    chrome.tabs.query({}, function(tabs) {
+        for (var i = 0; i < tabs.length; ++i) {
+          chrome.tabs.sendMessage(tabs[i].id, {action: "next"}), function(response) {
+            lastURL = response.url;
+            // console.log(response);
+            return lastURL;
+          };
+        }
+    });
+  }
+  else if(message.action === "update"){
     foundTab = false;
     chrome.tabs.query({}, function(tabs) {
       for (var i = 0; i < tabs.length; i++) {

@@ -15,8 +15,4 @@ $(document).ready(function() {
     background.back();
   });
 
-  // $('#test-btn').click(function() {
-  //   console.log(background.test());
-  // });
-
 });
