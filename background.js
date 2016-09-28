@@ -1,6 +1,6 @@
 var lastURL;
 var lastTabId;
-var foundTabTab = false;
+var foundTab = false;
 
 function load() {
   chrome.tabs.query({}, function(tabs) {
@@ -64,9 +64,7 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
   if(url.indexOf("youtube") >= 0 || url.indexOf("youtu.be") >= 0){
     url += "?rel=0&autoplay=1";
   }
-  else if(url.indexOf("soundcloud") >= 0){
-    url += "?auto_play=true";
-  }
+
   if(message.action === "new"){
     chrome.tabs.create({url: url}, function(tab){
       lastTabId = tab.id;

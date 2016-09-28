@@ -25,6 +25,7 @@
      ],
      "js": [
        "jquery-3.0.0.min.js",
+       "soundcloudApi.js",
        "content.js"
      ],
      "run_at": "document_end"
