@@ -13,7 +13,6 @@
   "background": {
     "scripts": [
       "jquery-3.0.0.min.js",
-      "soundcloudApi.js",
       "background.js"
     ],
     "persistent": true
@@ -27,9 +26,9 @@
      "js": [
        "jquery-3.0.0.min.js",
        "soundcloudApi.js",
+       "youtubeApi.js",
        "content.js"
-     ],
-     "run_at": "document_end"
+     ]
   }],
 
   "permissions": [

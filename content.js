@@ -1,6 +1,8 @@
 var threadIndex = 0;
 var url;
+var player;
 
+//handle message passing from popup page attached to button
 chrome.extension.onMessage.addListener(function(message, sender) {
 
   //create main iframe player
@@ -14,110 +16,104 @@ chrome.extension.onMessage.addListener(function(message, sender) {
     iframe.id = "RCMiFrame";
     document.body.appendChild(iframe);
 
+    //add iframe css dynamically to page
     var css = '#RCMiFrame {top:0;width:350px;height:200px;left:0;position:fixed;z-index:100;}',
     head = document.head || document.getElementsByTagName('head')[0],
     style = document.createElement('style');
-
     style.type = 'text/css';
-    if (style.styleSheet){
+    if (style.styleSheet) {
       style.styleSheet.cssText = css;
-    } else {
+    }
+    else {
       style.appendChild(document.createTextNode(css));
     }
-
     head.appendChild(style);
-
-    // var div = document.createElement('div');
-    // div.id = "RCMiFrameDiv";
-    // document.body.appendChild(div);
-    //
-    // var youtubeApi = document.createElement('script');
-    // var soundcloudApi = document.createElement('script');
-    // youtubeApi.src = "https://www.youtube.com/iframe_api";
-    // soundcloudApi.src = "https://w.soundcloud.com/player/api.js";
-    //
-    // var firstScriptTag = document.getElementsByTagName('script')[0];
-    // firstScriptTag.parentNode.insertBefore(youtubeApi, firstScriptTag);
-    // firstScriptTag.parentNode.insertBefore(soundcloudApi, firstScriptTag);
   }
 
-  if (message.action == "load") {
+  //load first music player/video
+  if (message.action == "load" && threadIndex < $('.title').length) {
     url = $('.title').eq(threadIndex).children().eq(0).attr('href');
 
-    while( (url === "" || url === null || url === undefined) && threadIndex < $('.title').length){
+    while((url === "" || url === null || url === undefined) && threadIndex < $('.title').length){
       threadIndex++;
       url = $('.title').eq(threadIndex).children().eq(0).attr('href');
     }
-    // window.open(url, '_blank');
-    // $('#RCMiFrame').attr('src', url);
-    // chrome.extension.sendMessage({action: "new", url: url});
-    threadIndex++;
   }
-  else if(message.action == "next") {
+  //load next music player/video
+  else if(message.action == "next" && threadIndex < $('.title').length) {
+    threadIndex++;
     url = $('.title').eq(threadIndex).children().eq(0).attr('href');
 
-   while( (url === "" || url === null || url === undefined) && threadIndex < $('.title').length){
+   while((url === "" || url === null || url === undefined) && threadIndex < $('.title').length){
       threadIndex++;
       url = $('.title').eq(threadIndex).children().eq(0).attr('href');
     }
-    // window.open(url, '_blank');
-    // $('#RCMiFrame').attr('src', url);
-    // chrome.extension.sendMessage({action: "update", url: url});
-    threadIndex++;
   }
-  else if(message.action == "update") {
+  //load previous music player/video
+  else if(message.action == "back" && threadIndex < $('.title').length) {
+    threadIndex--;
     url = $('.title').eq(threadIndex).children().eq(0).attr('href');
 
-   while( (url === "" || url === null || url === undefined) && threadIndex < $('.title').length){
-      threadIndex++;
-      url = $('.title').eq(threadIndex).children().eq(0).attr('href');
-    }
-    threadIndex++;
-  }
-  else if(message.action == "back") {
-    threadIndex-= 2;
-    url = $('.title').eq(threadIndex).children().eq(0).attr('href');
-
-    while( (url === "" || url === null || url === undefined) && threadIndex < $('.title').length){
+    while((url === "" || url === null || url === undefined) && threadIndex < $('.title').length){
       threadIndex--;
       url = $('.title').eq(threadIndex).children().eq(0).attr('href');
     }
-    // window.open(url, '_blank');
-    // $('#RCMiFrame').attr('src', url);
-    // chrome.extension.sendMessage({action: "update", url: url});
-    threadIndex++;
   }
 
-  if(url.indexOf("youtube") >= 0 || url.indexOf("youtu.be") >= 0){
-    url = url.replace("watch?v=", "embed/");
-    // url = url.replace("attribution_link", "embed/");
-    url = url.replace(".be/", "be.com/embed/") + "?autoplay=1";
-    url += "&enablejsapi=1";
-
-    if(url.indexOf("https") < 0){
-      url = url.replace("http", "https");
-    }
-      $('#RCMiFrame').attr('src', url);
+  //handle youtube url
+  if(url.indexOf("youtube") >= 0 || url.indexOf("youtu.be") >= 0) {
+    $.getJSON("https://youtube.com/oembed",
+      { url: url,
+        auto_play: true,
+        format: "json" },
+    function(data) {
+      $("#RCMiFrame").replaceWith(data.html.replace("?feature=oembed", "?feature=oembed&autoplay=1&enablejsapi=1"));
+      $('iframe:last').attr('id', 'RCMiFrame');
+    })
   }
+  //handle soundcloud url
   else if(url.indexOf("soundcloud") >= 0) {
     var embedUrl;
     $.getJSON("https://soundcloud.com/oembed",
-              { url: url,
-                auto_play: true,
-                format: "json"},
+      { url: url,
+        auto_play: true,
+        format: "json" },
     function(data)
     {
-      embedUrl = data.html.substring(data.html.lastIndexOf('src="')+5, data.html.lastIndexOf('"></iframe>')) + "&auto_play=true";
-      // $('#RCMiFrame').attr('src', embedUrl + "&auto_play=true");
       $("#RCMiFrame").replaceWith(data.html);
       $('iframe:last').attr('id', 'RCMiFrame');
-      // $("#RCMiFrame").css({'top':'0','width':'500px','height':'250px','right':'0','position':'fixed','z-index':'100'});
+
       var widget = SC.Widget('RCMiFrame');
       widget.bind(SC.Widget.Events.FINISH,
       function finishedPlaying() {
-        console.log("HIT");
         chrome.extension.sendMessage({action: "next"});
       });
     })
   }
+  //handle mixcloud url
+  else if(url.indexOf("mixcloud") >= 0) {
+    $.getJSON("https://mixcloud.com/oembed",
+      { url: url,
+        auto_play: true,
+        format: "json" },
+    function(data)
+    {
+      console.log(data.html);
+      $("#RCMiFrame").replaceWith(data.html);
+      $('iframe:last').attr('id', 'RCMiFrame');
+    })
+  }
+  // TODO: handle bandcamp url
+  // else if(url.indexOf("bandcamp") >= 0) {
+  //   $.getJSON("https://bandcamp.com/oembed",
+  //             { url: url,
+  //               auto_play: true,
+  //               format: "json" },
+  //   function(data)
+  //   {
+  //     console.log(data.html);
+  //     $("#RCMiFrame").replaceWith(data.html);
+  //     $('iframe:last').attr('id', 'RCMiFrame');
+  //   })
+  // }
 });
