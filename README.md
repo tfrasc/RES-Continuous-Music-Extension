@@ -12,7 +12,7 @@ The Goal of this extension is to simulate a radio-type streaming experience on m
 - no_chrome_api: This branch opens up a new tab by grabbing the url from each thread title.
 
 ## TODO
-- Integrate Youtube, Bandcamp, Mixcloud, and other API's to fire music end events and automatically continue to next song. (Plan to submit version 1.0 to Chrome Web Store after Youtube integration)
+- Integrate Youtube, Bandcamp, Mixcloud, and other API's to fire music end events and automatically continue to next song (I plan to submit version 1.0 to Chrome Web Store after Youtube integration)
 - Integrate Play/Pause commands from popup attached to button
 - Add fancier CSS to popup attached to button
 - Create icon for button
