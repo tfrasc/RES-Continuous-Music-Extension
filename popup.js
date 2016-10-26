@@ -1,10 +1,16 @@
 var background = chrome.extension.getBackgroundPage();
-var x;
+var first = true;
 
 $(document).ready(function() {
 
   $('#start-btn').click(function() {
-    background.load();
+    if(first == false) {
+      background.togglePlay();
+    }
+    else {
+      background.load();
+      first = false;
+    }
   });
 
   $('#next-btn').click(function() {
