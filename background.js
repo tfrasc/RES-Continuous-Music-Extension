@@ -1,3 +1,5 @@
+var currentId;
+
 //load first music player/video
 function load() {
   chrome.tabs.query({}, function(tabs) {
@@ -36,6 +38,10 @@ function back() {
 
 //handle message passing from content to background (handled music/video has ended event)
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
+  //get current tab id to return to
+  chrome.tabs.getSelected(null, function(tab) {
+    currentId = tab.id;
+  });
 
   //handle message received to load next music player/video
   if(message.action === "next"){
@@ -43,4 +49,4 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
       next();
     });
   }
-})
+});

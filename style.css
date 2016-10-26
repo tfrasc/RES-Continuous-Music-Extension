@@ -1,4 +1,9 @@
-button {
-  border-radius: 5px;
+body {
   background-color: lightgrey;
+}
+
+button {
+  border-radius: 2px;
+  border: transparent;
+  background-color: #4db8ff;
 }
