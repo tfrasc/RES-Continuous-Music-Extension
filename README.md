@@ -16,3 +16,9 @@ The goal of this extension is to simulate a radio-type streaming experience on m
 After installing the extension, to ensure that the music continuously streams when you're using a different Chrome tab, please visit the [Chrome flags page] (chrome://flags) and find the [Gesture requirement for media playback flag] (chrome://flags/#disable-gesture-requirement-for-media-playback) and make sure that you DISABLE this flag. This will allow JavaScript to run on inactive tabs and will continuously stream your music :).
 
 ## TODO
+- Submit to Chrome Web Store (Soundcloud implementation only)
+- Integrate Youtube, Bandcamp, Mixcloud, and other API's to fire music end events and automatically continue to next song.
+- ~~Integrate Play/Pause commands from popup attached to button~~
+- Allow hiding and moving generated iFrame
+- Add fancier CSS to popup attached to button
+- Create icon for button
