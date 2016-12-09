@@ -24,5 +24,5 @@ Issues, bugs, and improvements are absolutely welcome! Please submit a GitHub is
 - Integrate Youtube, Bandcamp, Mixcloud, and other API's to fire music end events and automatically continue to next song.
 - ~~Integrate Play/Pause commands from popup attached to button~~
 - Allow hiding and moving generated iFrame
-- Add fancier CSS to popup attached to button
-- Create icon for button
+- ~~Add fancier CSS to popup attached to button~~
+- ~~Create icon for button~~
