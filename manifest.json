@@ -1,12 +1,18 @@
 {
   "manifest_version": 2,
 
-  "name": "Radio Reddit Chrome Extension",
+  "name": "Radio Reddit",
   "description": "Allows you to continously play music on a music subreddit",
   "version": "1.0",
 
+  "icons": {
+        "16":"Radio-Reddit-Icon-Trimmed.png",
+        "48":"Radio-Reddit-Icon-Trimmed.png",
+        "128":"Radio-Reddit-Icon-Trimmed.png"
+      },
+
   "browser_action": {
-    /*"default_icon": "icon.png",*/
+    "default_icon": "Radio-Reddit-Icon-Trimmed.png",
     "default_popup": "popup.html"
   },
 
