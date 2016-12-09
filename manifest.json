@@ -2,8 +2,12 @@
   "manifest_version": 2,
 
   "name": "Radio Reddit",
+  "short_name": "Radio Reddit",
+  "author": "Tyler Frasca (tfrasc)",
   "description": "Allows you to continously play music on a music subreddit",
   "version": "1.0",
+
+  "homepage_url": "https://github.com/tfrasc/Radio-Reddit-Chrome-Extension",
 
   "icons": {
         "16":"Radio-Reddit-Icon-Trimmed.png",

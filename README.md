@@ -16,6 +16,9 @@ The goal of this extension is to simulate a radio-type streaming experience on m
 ## Usage
 After installing the extension, to ensure that the music continuously streams when you're using a different Chrome tab, please visit the [Chrome flags page](chrome://flags) and find the [Gesture requirement for media playback flag](chrome://flags/#disable-gesture-requirement-for-media-playback) and make sure that you DISABLE this flag. This will allow JavaScript to run on inactive tabs and will continuously stream your music :).
 
+## Issues, bugs, and improvements
+Issues, bugs, and improvements are absolutely welcome! Please submit a GitHub issue [here](https://github.com/tfrasc/Radio-Reddit-Chrome-Extension/issues) and your submission will be addressed as soon as possible. Remember, this extension is currently in active development and new implementations and fixes will be regularly added.
+
 ## TODO
 - Submit to Chrome Web Store (Soundcloud implementation only)
 - Integrate Youtube, Bandcamp, Mixcloud, and other API's to fire music end events and automatically continue to next song.
