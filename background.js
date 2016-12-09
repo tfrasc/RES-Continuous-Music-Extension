@@ -1,31 +1,52 @@
-$('button').each(function () { 
-  console.log("Youtube");
-});
+var currentId;
 
-/*
-$('.expando-button').each(function () {
-  $(this).trigger('click');
-  $(this).children('.ytp-button').trigger('click');
-  console.log("Youtube button");
-});
-*/
-//$('.expando-button').eq(1).trigger('click');
-//$('.expando-button').eq(1).trigger('click');
+//load first music player/video
+function load() {
+  chrome.tabs.query({}, function(tabs) {
+      for (var i = 0; i < tabs.length; ++i) {
+        chrome.tabs.sendMessage(tabs[i].id, {action: "load"});
+      }
+  });
+}
 
-$('.expando-button').eq(2).trigger('click');
+//toggle playing and pausing music/video
+function togglePlay() {
+  chrome.tabs.query({}, function(tabs) {
+      for (var i = 0; i < tabs.length; ++i) {
+        chrome.tabs.sendMessage(tabs[i].id, {action: "togglePlay"});
+      }
+  });
+}
 
+//load next music player/video
+function next() {
+  chrome.tabs.query({}, function(tabs) {
+      for (var i = 0; i < tabs.length; ++i) {
+        chrome.tabs.sendMessage(tabs[i].id, {action: "next"});
+      }
+  });
+}
 
-setTimeout(
-  function() 
-  {
-    
+//load previous music player/video
+function back() {
+  chrome.tabs.query({}, function(tabs) {
+      for (var i = 0; i < tabs.length; ++i) {
+        chrome.tabs.sendMessage(tabs[i].id, {action: "back"});
+      }
+  });
+}
 
-  }, 20000);  
+//handle message passing from content to background (handled music/video has ended event)
+chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
+  //get current tab id to return to
+  chrome.tabs.getSelected(null, function(tab) {
+    currentId = tab.id;
+  });
 
-$('iframe').each(function(){
-    var iframe = $(this).contents();
-    console.log("outter iframe");
-    iframe.find('iframe').each(function () {
-      console.log("inner frame");
+  //handle message received to load next music player/video
+  if(message.action === "next"){
+    chrome.tabs.query({}, function(tabs) {
+      next();
     });
+  }
 });
